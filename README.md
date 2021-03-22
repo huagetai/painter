@@ -1,7 +1,7 @@
 ## 介绍
 paiter是一个生成微信分享图的工具。
 开发有翼小助手微信小程序时，需要生成转发分享图和朋友圈海报图的生成。
-起初使用的是https://github.com/Kujiale-Mobile/Painter前端一个很强大的工具，
+起初使用的是https://github.com/Kujiale-Mobile/Painter 前端一个很强大的工具，
 但是由于微信小程序前端缓存限制以及分享触发机制的规则，导致生成的分享图总是出问题，于是乎有了本项目。
 
 ## 功能
@@ -11,7 +11,7 @@ paiter是一个生成微信分享图的工具。
 - 支持图片border-radis属性，圆角图片不再是问题
 - 文字支持LineHeight、LineClamp属性，超出width自动截取
 - 文字粗细程度，支持heavy、bold、bolder、normal、lighter
-
+  ![微信分享图样例](assets/out.png)
 ## 实体对象说明
 ### 调色板对象
 ```go
