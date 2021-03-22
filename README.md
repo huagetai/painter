@@ -88,3 +88,8 @@ go get github.com/huagetai/painter
 painter.go是一个生成微信分享图片的样例
 
 
+## 使用的开源项目
+- https://github.com/disintegration/imaging
+- https://github.com/muesli/smartcrop
+- https://github.com/nfnt/resize
+- https://github.com/fogleman/gg
