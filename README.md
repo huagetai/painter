@@ -148,4 +148,3 @@ examples/painter.go是一个生成微信分享图片的样例
 - https://github.com/muesli/smartcrop
 - https://github.com/nfnt/resize
 - https://github.com/fogleman/gg
-- go get github.com/spf13/viper

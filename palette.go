@@ -28,11 +28,11 @@ func (p *Palette) Paint(w io.Writer) {
 	filename := "poster-" + fmt.Sprintf("%x", md5.Sum(j))
 	fileBytes, err := os.ReadFile("./image/" + filename + ".png")
 	if err == nil {
-		log.Info("poster hit:%v \n", filename)
+		log.Sugar.Infow("poster hit", "filename", filename)
 		io.Copy(w, bytes.NewReader(fileBytes))
 		return
 	} else {
-		log.Info("poster miss:%v \n", filename)
+		log.Sugar.Infow("poster miss", "filename", filename)
 	}
 	dc := gg.NewContext(p.Width, p.Height)
 	if p.BorderRadius > 0 {

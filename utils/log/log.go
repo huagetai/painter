@@ -1,35 +1,35 @@
 package log
 
 import (
-	"io"
-	"log"
-	"os"
+	"encoding/json"
+	"go.uber.org/zap"
 )
 
-var (
-	info    *log.Logger
-	warning *log.Logger
-	error   *log.Logger
-)
+var Sugar *zap.SugaredLogger
 
 func init() {
-	errFile, err := os.OpenFile("errors.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatalln("打开日志文件失败：", err)
+	rawJSON := []byte(`{
+	  "level": "debug",
+	  "encoding": "json",
+	  "outputPaths": ["stdout", "pmserver.log"],
+	  "errorOutputPaths": ["stderr", "errors.log"],
+	  "encoderConfig": {
+	    "messageKey": "message",
+	    "levelKey": "level",
+	    "levelEncoder": "lowercase"
+	  }
+	}`)
+
+	var cfg zap.Config
+	if err := json.Unmarshal(rawJSON, &cfg); err != nil {
+		panic(err)
 	}
-	info = log.New(os.Stdout, "Info:", log.Ldate|log.Ltime|log.Lshortfile)
-	warning = log.New(os.Stdout, "Warning:", log.Ldate|log.Ltime|log.Lshortfile)
-	error = log.New(io.MultiWriter(os.Stderr, errFile), "Error:", log.Ldate|log.Ltime|log.Lshortfile)
-}
+	logger, err := cfg.Build()
+	if err != nil {
+		panic(err)
+	}
+	defer logger.Sync()
+	Sugar = logger.Sugar()
+	Sugar.Info("logger construction succeeded")
 
-func Info(format string, v ...interface{}) {
-	info.Printf(format, v)
-}
-
-func Warning(format string, v ...interface{}) {
-	warning.Printf(format, v)
-}
-
-func Error(format string, v ...interface{}) {
-	error.Printf(format, v)
 }

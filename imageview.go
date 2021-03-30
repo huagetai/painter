@@ -32,15 +32,15 @@ type ImageView struct {
 func (v *ImageView) Paint(ctx *PosterContext) {
 	srcReader, err := imageResourceReader(v.URI)
 	if err != nil {
-		log.Error("%v URIResourceReader err：%v \n", v.URI, err)
+		log.Sugar.Errorw("URIResourceReader Error", "uri", v.URI, "reason", err)
 		return
 	}
 	srcImage, format, err := image.Decode(srcReader)
 	if err != nil {
-		log.Error("%v image.Decode err：%v \n", v.URI, err)
+		log.Sugar.Errorw("image.Decode Error", "uri", v.URI, "reason", err)
 		return
 	}
-	log.Info("%v %v \n", v.URI, format)
+	log.Sugar.Infow("", "uri", v.URI, "format", format)
 
 	dc := gg.NewContext(v.Width, v.Height)
 	if v.BorderRadius > 0 {
@@ -137,9 +137,9 @@ func imageResourceReader(uri string) (r *bytes.Reader, err error) {
 		filename := "image-" + checksum.MD5Str(uri)
 		fileBytes, err = os.ReadFile("./image/" + filename + ".jpeg")
 		if err == nil {
-			log.Info("image cache hit:%v \n", uri)
+			log.Sugar.Infow("image cache hit", "uri", uri)
 		} else {
-			log.Info("image cache miss:%v \n", uri)
+			log.Sugar.Infow("image cache miss", "uri", uri)
 			resp, err := http.Get(uri)
 			if err != nil {
 				return nil, err
@@ -149,10 +149,10 @@ func imageResourceReader(uri string) (r *bytes.Reader, err error) {
 			if err != nil {
 				return nil, err
 			}
-			os.WriteFile("./image/"+filename+".jpeg", fileBytes, 0777)
+			os.WriteFile("./image/"+filename+".jpeg", fileBytes, 0644)
 		}
 	} else {
-		log.Info("local image:%v \n", uri)
+		log.Sugar.Infow("local image", "uri", uri)
 		fileBytes, err = os.ReadFile(uri)
 		if err != nil {
 			return nil, err
