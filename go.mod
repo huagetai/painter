@@ -3,6 +3,7 @@ module github.com/huagetai/painter
 go 1.16
 
 require (
+	github.com/Andrew-M-C/go.emoji v0.0.0-20210303022417-b8fefdaedb50 // indirect
 	github.com/disintegration/imaging v1.6.2
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/muesli/smartcrop v0.3.0
